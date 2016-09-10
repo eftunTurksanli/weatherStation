@@ -115,13 +115,13 @@ $(document).ready(function () {
     });
 })
 
-function initMap() {
+window.initMap = function/* initMap*/() {
     autocomplete = new google.maps.places.Autocomplete(
             /** @type {!HTMLInputElement} */ (
                 document.getElementById('findbox')));
 
     autocomplete.addListener('place_changed', onPlaceChanged);
-}
+};
 
 function onPlaceChanged()
 {
@@ -141,19 +141,17 @@ function onPlaceChanged()
     }
 }
 
-
-function onMapClick(e) {
-    alert("You clicked the map at " + e.latlng);
-}
-
-
 function saveStation()
 {
     var name = document.getElementById('name').value;
     var address = document.getElementById('findbox').value;
     myloc = JSON.stringify(mymarker.getLatLng());
     $.post("add_station", {name: name, address: address, loc: myloc}, function(data, status){
-        alert("Data: " + data + "\nStatus: " + status);
+        if(data.type == "warning") {
+            alert(data.message);
+        } else {
+            $("#myModal").modal('toggle');
+        }
     })
 }
 

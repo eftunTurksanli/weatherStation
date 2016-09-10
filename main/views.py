@@ -11,6 +11,7 @@ from main.models import Station
 
 def index(request):
     stations = Station.objects.all()
+    print stations
     return render(request, "index.html", {'stations': stations})
 
 
